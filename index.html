@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Processor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            margin-right: 10px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSV Processor</h1>
+    <textarea id="csvInput" placeholder="Paste your CSV data here..."></textarea>
+    <button onclick="processCSV()">Process</button>
+    <button onclick="copyToClipboard()">Copy to Clipboard</button>
+    <h2>Output:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        function processCSV() {
+            const input = document.getElementById('csvInput').value;
+            const lines = input.trim().split('\n');
+            const headers = lines[0].split(',');
+            const outputLines = [headers.join(',')];
+            const result = []
+            for (let i = 1; i < lines.length; i++) {
+                const columns = lines[i].split(',');
+                var output = 'NSE:' + columns[1] +",";
+                result.push(output);
+            }
+
+            document.getElementById('output').textContent = result.join('\n');
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('output').textContent;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = output;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            alert('Output copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
